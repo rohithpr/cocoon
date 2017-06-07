@@ -1,6 +1,6 @@
 pragma solidity ^0.4.11;
 
-contract locker {
+contract cocoon {
     // Nested mapping: funds[initiator][intermediary][receiver] contains the value of ETH locked up by that triple.
     mapping (address => mapping (address => mapping (address => uint))) funds;
 
@@ -14,8 +14,7 @@ contract locker {
         return funds[initiator][intermediary][receiver];
     }
 
-    // Common function used to check is sufficient balance is present in a
-    // trio and send it to the target if that is the case.
+    // Common function used to check is sufficient balance is present in a trio and send it to the target if that is the case.
     function sendToTarget(address initiator, address intermediary, address receiver, address target, uint amount) {
         if (funds[initiator][intermediary][receiver] >= amount) {
             funds[initiator][intermediary][receiver] -= amount;
