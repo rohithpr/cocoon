@@ -8,6 +8,15 @@ geth --dev
 
 ### Open another terminal to execute the following commands:
 
+#### Open console
+
+```sh
+geth --dev  attach ipc://tmp/ethereum_dev_mode/geth.ipc
+```
+
+![open_console](https://user-images.githubusercontent.com/10276811/26889688-8c77fcb2-4bcc-11e7-94f6-37e89d215317.png)
+---
+
 #### Create 4 accountsand unlock them to allow transactions
 
 ```javascript
