@@ -10,7 +10,7 @@ contract locker {
     }
 
     // Get amount of ETH locked up with a triple.
-    function getValue(address initiator, address intermediary, address receiver) {
+    function getValue(address initiator, address intermediary, address receiver) constant returns (uint) {
         return funds[initiator][intermediary][receiver];
     }
 
