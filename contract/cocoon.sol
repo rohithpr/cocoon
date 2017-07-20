@@ -15,7 +15,7 @@ contract cocoon {
     }
 
     // Common function used to check is sufficient balance is present in a trio and send it to the target if that is the case.
-    function sendToTarget(address initiator, address intermediary, address receiver, address target, uint amount) {
+    function sendToTarget(address initiator, address intermediary, address receiver, address target, uint amount) internal {
         if (funds[initiator][intermediary][receiver] >= amount) {
             funds[initiator][intermediary][receiver] -= amount;
             target.transfer(amount);
