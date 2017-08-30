@@ -5,6 +5,7 @@ contract ERC20 {
 }
 
 contract Cocoon {
+    uint16 public version = 1;
     address public owner;
     address public intermediary;
     mapping (address => bool) public whitelist;
@@ -22,13 +23,18 @@ contract Cocoon {
     // Accept ETH transfers to the contract
     function () payable {}
 
-    // This contract does keep track of or care about the balance of various ERC20 tokens.
+    modifier is_allowed_sender() {
+        assert((msg.sender == owner) || (msg.sender == intermediary));
+        _;
+    }
+
+    // This contract does not keep track of or care about the balance of various ERC20 tokens.
     // It will try to transfer whatever amount of tokens you ask it to transfer and it
     // is up to the token's contract to throw an error if there isn't enough balance.
-    function transfer(address _receiver, address _token_contract_address, uint _amount) public {
+    function transfer_erc20(address _receiver, address _token_contract_address, uint _amount) is_allowed_sender public {
         // msg.sender has to be owner or intermediary
         // _receiver should be in the whitelist
-        if (((msg.sender == owner) || (msg.sender == intermediary)) && (whitelist[_receiver] == true)) {
+        if (whitelist[_receiver] == true) {
             ERC20 erc20_instance = ERC20(_token_contract_address);
             erc20_instance.transfer(_receiver, _amount);
         }
@@ -40,7 +46,7 @@ contract Cocoon {
     function transfer_ether(address _receiver, uint _amount) public {
         // msg.sender has to be owner or intermediary
         // _receiver should be in the whitelist
-        if (((msg.sender == owner) || (msg.sender == intermediary)) && (whitelist[_receiver] == true)) {
+        if (whitelist[_receiver] == true) {
             _receiver.transfer(_amount);
         }
         else {
